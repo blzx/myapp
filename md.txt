@@ -1,1 +1,11 @@
 git rm -r --cached node_modules   //将node_modules从git 追踪中删除
+git branch // 查看本地分支
+git branch -r // 查看远程分支
+git branch -a // 查看所有分支
+git checkout -b myBranch origin/branch    // 检出远程的branch分支，在本地起名为myBranch分支，并切换到本地额myBranch分支
+
+
+//合并分支
+    // 合并前要切回需要进行并入的分支
+    git checkout master
+    git merge aaaa     // 把aaaa分支合并入master分支
