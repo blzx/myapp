@@ -9,3 +9,25 @@ git checkout -b myBranch origin/branch    // 检出远程的branch分支，在本地起名为m
     // 合并前要切回需要进行并入的分支
     git checkout master
     git merge aaaa     // 把aaaa分支合并入master分支
+
+
+// nginx 反向代理配置
+    server {
+        listen  8003  // nginx 监听的端口号
+        server_name    localhost    // 配置域名
+        location / {
+            //这个配置表示输入 localhost:8003 时会访问本机的 C:/users/Administrator/Desttop/myapp/ 目录去找文件(通过nginx去访问本地需要去跨域的文件)  如果不通过nginx去打开本地项目 而是通过webstorm默认的63342端口打开，ajax访问的跨域接口虽然能通过nginx拿到数据，但是浏览器还是会报跨域错误
+            root   	C:/users/Administrator/Desktop/myapp/;  (本地项目根目录)
+            index  	index.html index.htm;             // 默认是myapp中的index.html文件
+            // proxy_pass   	http://localhost:8888/test.action;
+        }
+
+        // 凡是请求里带 /mobile路径的请求都代理转发到http://localhost:8888/
+        location /mobile {
+            rewrite  ^/mobile/(.*)$ /$1 break;        // 监听所有/apis前缀，是则转发后台api接口地址
+            include  uwsgi_params;
+            proxy_pass   	http://localhost:8888/;   // nginx代理的服务器地址
+        }
+    }
+
+    // 以上配置 既能通过nginx访问本地页面（在本地页面中可直接发送ajax，浏览器不会再报跨域错误；绕过了webstorm）进行开发；又能直接访问后台接口

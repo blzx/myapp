@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
-    <script src="../js/jquery-3.3.1.js"></script>
+    <script src="js/jquery-3.3.1.js"></script>
     <style>
-
+        .coo{width: 100px;height:100px;background-color: #0c82f0;}
     </style>
 </head>
 <body>
@@ -13,9 +13,10 @@
 <script>
     $.ajax({
         type:'GET',
-        url:'http://localhost:8888/test.action',
+        url:'mobile/test.action',
         success:function (data) {
             console.log(data);
+            $('.coo').append(data.status);
         }
     })
 </script>
